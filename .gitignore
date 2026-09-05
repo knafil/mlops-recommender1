@@ -1,0 +1,23 @@
+# Data (géré par DVC)
+# On ignore le contenu des dossiers, mais pas les dossiers eux-mêmes
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+# Ne PAS ignorer les métadonnées et fichiers pointeurs DVC
+!*.dvc
+!data/**/.dvc
+!data/**/.gitignore
+# Fichiers temporaires et verrous de DVC
+.dvc/tmp/
+# Modèles (gérés par MLflow / DVC)
+models/*.pkl
+models/*.onnx
+# Environnements
+.env
+venv/
+__pycache__/
+*.pyc
+# Jupyter
+.ipynb_checkpoints/
+
