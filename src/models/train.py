@@ -6,7 +6,7 @@ from sklearn.metrics import mean_squared_error
 import numpy as np
 import yaml
 import logging
-Import os
+import os
 import pickle
 import json
 

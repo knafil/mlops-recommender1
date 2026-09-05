@@ -1,18 +1,18 @@
 data:
-  raw_path: "data/raw/ml-1m/ratings.dat" # Chemin vers données brutes
-  processed_path: "data/processed/ratings_clean.csv" # Chemin des données nettoyées
-  test_size: 0.2 
+  raw_path: "data/raw/ml-1m/ratings.dat"
+  processed_path: "data/processed/ratings_clean.csv"
+  test_size: 0.25
   random_seed: 42
 
 model:
   name: "svd_recommender"
   seed: 42
-  n_factors: 50  	#facteurs latents
-  n_epochs: 20 	#époques
-  lr_all: 0.005   	#taux d’apprentissage
-  reg_all: 0.02  	#régularisation
+  n_factors: 50
+  n_epochs: 20
+  lr_all: 0.005
+  reg_all: 0.02
 
 serving:
   host: "0.0.0.0"
   port: 8000
-  threshold: 0.5	#règle métier d’inférence
+  threshold: 0.5
