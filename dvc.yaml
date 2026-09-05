@@ -1,0 +1,28 @@
+stages:
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+      - src/data/preprocess.py
+      - configs/config.yaml
+      - data/raw/ml-1m/ratings.dat
+      - data/raw/ml-1m/movies.dat
+    outs:
+      - data/processed/ratings_clean.csv
+      - data/processed/train.csv
+      - data/processed/test.csv
+    metrics:
+      - data/processed/metrics.json:
+          cache: false
+  train:
+    cmd: python src/models/train.py
+    deps:
+      - src/models/train.py
+      - configs/config.yaml
+      - data/processed/ratings_clean.csv
+      - data/processed/train.csv
+      - data/processed/test.csv
+    outs:
+      - models/recommender.pkl
+    metrics:
+      - models/metrics.json:
+          cache: false
