@@ -43,18 +43,18 @@ stages:
       hash: md5
       md5: edb639b5815c02839a22f8305e9e81e9
       size: 302
-    - path: data/processed/ratings_clean.csv
+    - path: data/features/interaction_features.parquet
       hash: md5
-      md5: 44dd49676ce59308ed6b4afa184e9b5e
-      size: 41247846
-    - path: data/processed/test.csv
+      md5: 860b4451e016763fdc047b6c8337f064
+      size: 6345910
+    - path: data/features/movie_features.parquet
       hash: md5
-      md5: 75a7a52ae0dd35f4e86311d2bc45b504
-      size: 10130488
-    - path: data/processed/train.csv
+      md5: fa0011995520cb74c65c1f69fda16b4f
+      size: 139657
+    - path: data/features/user_features.parquet
       hash: md5
-      md5: 28f20bf563a38f24b6c8c53ec7cb5d3d
-      size: 31117417
+      md5: 8c0590ba5b45f91da45a2e0985b68d46
+      size: 286244
     - path: src/models/train.py
       hash: md5
       md5: 1036d8bb98f530e86b719b509f61f683
@@ -68,3 +68,47 @@ stages:
       hash: md5
       md5: 31d7528b350ee4c4fb5b9b7c496411f3
       size: 88916
+  validate:
+    cmd: python src/data/validate.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 28f20bf563a38f24b6c8c53ec7cb5d3d
+      size: 31117417
+    - path: src/data/validate.py
+      hash: md5
+      md5: f7bcf8d75a50f2042af2636f0911d844
+      size: 3647
+    outs:
+    - path: data/processed/validation_report.json
+      hash: md5
+      md5: 449c4a6cd3e037ee2db8e6f580e315aa
+      size: 963
+  build_features:
+    cmd: python src/features/build_features.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 28f20bf563a38f24b6c8c53ec7cb5d3d
+      size: 31117417
+    - path: src/features/build_features.py
+      hash: md5
+      md5: 883db3b3a2ac64e0ff30592c9426c629
+      size: 4303
+    outs:
+    - path: data/features/interaction_features.parquet
+      hash: md5
+      md5: 860b4451e016763fdc047b6c8337f064
+      size: 6345910
+    - path: data/features/metrics.json
+      hash: md5
+      md5: aec38bd6c73ad4fccd9fb8a1772250a9
+      size: 80
+    - path: data/features/movie_features.parquet
+      hash: md5
+      md5: fa0011995520cb74c65c1f69fda16b4f
+      size: 139657
+    - path: data/features/user_features.parquet
+      hash: md5
+      md5: 8c0590ba5b45f91da45a2e0985b68d46
+      size: 286244
