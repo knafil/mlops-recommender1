@@ -5,14 +5,9 @@ stages:
       - src/data/preprocess.py
       - configs/config.yaml
       - data/raw/ml-1m/ratings.dat
-      - data/raw/ml-1m/movies.dat
     outs:
       - data/processed/train.csv
       - data/processed/test.csv
-    metrics:
-      - data/processed/metrics.json:
-          cache: false
-
   validate:
     cmd: python src/data/validate.py
     deps:
@@ -21,7 +16,6 @@ stages:
     metrics:
       - data/processed/validation_report.json:
           cache: false
-
   build_features:
     cmd: python src/features/build_features.py
     deps:
@@ -30,22 +24,20 @@ stages:
     outs:
       - data/features/user_features.parquet
       - data/features/movie_features.parquet
-      - data/features/interaction_features.parquet
-    metrics:
-      - data/features/metrics.json:
-          cache: false
-
-  train:
-    cmd: python src/models/train.py
+  build_advanced_features:
+    cmd: python src/features/build_advanced_features.py
     deps:
-      - src/models/train.py
-      - configs/config.yaml
-      - data/features/user_features.parquet
-      - data/features/movie_features.parquet
-      - data/features/interaction_features.parquet
+      - src/features/build_advanced_features.py
+      - data/processed/train.csv
     outs:
-      - models/recommender.pkl
+      - data/features/user_embeddings.parquet
+      - data/features/movie_embeddings.parquet
+      - data/features/clean_features.parquet
+  check_leakage:
+    cmd: python src/features/check_leakage.py
+    deps:
+      - src/features/check_leakage.py
+      - data/features/clean_features.parquet
     metrics:
-      - models/metrics.json:
+      - data/features/leakage_report.json:
           cache: false
-

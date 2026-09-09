@@ -112,3 +112,43 @@ stages:
       hash: md5
       md5: 8c0590ba5b45f91da45a2e0985b68d46
       size: 286244
+  build_advanced_features:
+    cmd: python src/features/build_advanced_features.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 28f20bf563a38f24b6c8c53ec7cb5d3d
+      size: 31117417
+    - path: src/features/build_advanced_features.py
+      hash: md5
+      md5: 6ca83863ed4e50ab35401842ef80f361
+      size: 3008
+    outs:
+    - path: data/features/clean_features.parquet
+      hash: md5
+      md5: 3928683d79fb618e1993e39f7a6b2967
+      size: 8034470
+    - path: data/features/movie_embeddings.parquet
+      hash: md5
+      md5: f8f71ee59f7a342b9a34ace58f27d56e
+      size: 162059
+    - path: data/features/user_embeddings.parquet
+      hash: md5
+      md5: ab2f33862824d02ec7d11fe171e4be02
+      size: 231243
+  check_leakage:
+    cmd: python src/features/check_leakage.py
+    deps:
+    - path: data/features/clean_features.parquet
+      hash: md5
+      md5: 3928683d79fb618e1993e39f7a6b2967
+      size: 8034470
+    - path: src/features/check_leakage.py
+      hash: md5
+      md5: 51cc69792ede8fea04254f7f9a57bcd7
+      size: 1865
+    outs:
+    - path: data/features/leakage_report.json
+      hash: md5
+      md5: 37d2e707cd6e989642e641073df5d223
+      size: 115
