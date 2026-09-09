@@ -1,0 +1,6 @@
+{
+  "has_leakage": false,
+  "suspicious_features_count": 0,
+  "suspicious_features": {},
+  "threshold_used": 0.85
+}
