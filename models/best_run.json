@@ -1,0 +1,6 @@
+{
+    "best_run_id": "ac5b6b6b2d1044c08d3ba8763efdcdd8",
+    "best_model": "xgboost_weighted_class_weight",
+    "rmse": 0.7213,
+    "mae": 0.5202
+}

@@ -41,3 +41,28 @@ stages:
     metrics:
       - data/features/leakage_report.json:
           cache: false
+  split:
+    cmd: python src/data/split.py
+    deps:
+      - src/data/split.py
+      - configs/config.yaml
+      - data/features/clean_features.parquet
+    outs:
+      - data/splits/train.parquet
+      - data/splits/val.parquet
+      - data/splits/test.parquet
+    metrics:
+      - data/splits/split_metrics.json:
+          cache: false
+  experiment:
+    cmd: python src/models/experiment.py
+    deps:
+      - src/models/experiment.py
+      - data/splits/train.parquet
+      - data/splits/val.parquet
+      - data/features/user_embeddings.parquet
+      - data/features/movie_embeddings.parquet
+    metrics:
+      - models/best_run.json:
+          cache: false
+

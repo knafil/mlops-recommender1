@@ -152,3 +152,63 @@ stages:
       hash: md5
       md5: 37d2e707cd6e989642e641073df5d223
       size: 115
+  split:
+    cmd: python src/data/split.py
+    deps:
+    - path: configs/config.yaml
+      hash: md5
+      md5: edb639b5815c02839a22f8305e9e81e9
+      size: 302
+    - path: data/features/clean_features.parquet
+      hash: md5
+      md5: 3928683d79fb618e1993e39f7a6b2967
+      size: 8034470
+    - path: src/data/split.py
+      hash: md5
+      md5: 580a8b179cd725ec5bb532d655e19e18
+      size: 4334
+    outs:
+    - path: data/splits/split_metrics.json
+      hash: md5
+      md5: 5b67487a6b5b08f43c3d507d13546e5a
+      size: 133
+    - path: data/splits/test.parquet
+      hash: md5
+      md5: 0b4ea2e03e04d192d7d3dcb6b773c8cf
+      size: 952426
+    - path: data/splits/train.parquet
+      hash: md5
+      md5: 618afc205ab1acb4a404c30545c38c18
+      size: 7019968
+    - path: data/splits/val.parquet
+      hash: md5
+      md5: 31d56952f383239d6391b4810e3d665a
+      size: 904458
+  experiment:
+    cmd: python src/models/experiment.py
+    deps:
+    - path: data/features/movie_embeddings.parquet
+      hash: md5
+      md5: f8f71ee59f7a342b9a34ace58f27d56e
+      size: 162059
+    - path: data/features/user_embeddings.parquet
+      hash: md5
+      md5: ab2f33862824d02ec7d11fe171e4be02
+      size: 231243
+    - path: data/splits/train.parquet
+      hash: md5
+      md5: 618afc205ab1acb4a404c30545c38c18
+      size: 7019968
+    - path: data/splits/val.parquet
+      hash: md5
+      md5: 31d56952f383239d6391b4810e3d665a
+      size: 904458
+    - path: src/models/experiment.py
+      hash: md5
+      md5: 3a1de04fbce76f7d0e4f5704fbe56878
+      size: 7696
+    outs:
+    - path: models/best_run.json
+      hash: md5
+      md5: 942bb6e7050da99120af0d397d51077e
+      size: 147
