@@ -212,3 +212,46 @@ stages:
       hash: md5
       md5: 942bb6e7050da99120af0d397d51077e
       size: 147
+  evaluate:
+    cmd: python -m src.models.evaluate
+    deps:
+    - path: data/features/clean_features.parquet
+      hash: md5
+      md5: 3928683d79fb618e1993e39f7a6b2967
+      size: 8034470
+    - path: data/splits/test.parquet
+      hash: md5
+      md5: 0b4ea2e03e04d192d7d3dcb6b773c8cf
+      size: 952426
+    - path: data/splits/train.parquet
+      hash: md5
+      md5: 618afc205ab1acb4a404c30545c38c18
+      size: 7019968
+    - path: src/models/evaluate.py
+      hash: md5
+      md5: 17932151672d1e3a536e0d99b18044e4
+      size: 5587
+    - path: src/models/metrics.py
+      hash: md5
+      md5: 3196f4499c9fe76e601c3ecbd91de916
+      size: 4926
+    outs:
+    - path: models/evaluation_results.json
+      hash: md5
+      md5: 0f1181f1b546cb050a5e683d74f16150
+      size: 283
+    - path: reports/backtest_results.json
+      hash: md5
+      md5: fc9f41126dacf947ce368be49a5ce7c8
+      size: 1081
+  promote_model:
+    cmd: python -m src.models.registry
+    deps:
+    - path: models/evaluation_results.json
+      hash: md5
+      md5: 0f1181f1b546cb050a5e683d74f16150
+      size: 283
+    - path: src/models/registry.py
+      hash: md5
+      md5: b1bb71c175831510e298910690e9b01d
+      size: 1483
