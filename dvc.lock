@@ -255,3 +255,18 @@ stages:
       hash: md5
       md5: b1bb71c175831510e298910690e9b01d
       size: 1483
+  pipeline_prefect:
+    cmd: python -m src.pipelines.recommender_pipeline
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 28f20bf563a38f24b6c8c53ec7cb5d3d
+      size: 31117417
+    - path: src/pipelines/recommender_pipeline.py
+      hash: md5
+      md5: 1f6fba820cfd9fd567e9b5c639189e3d
+      size: 1938
+    - path: src/pipelines/tasks.py
+      hash: md5
+      md5: e582db07a13ba9e01b122eb2f5f8a22d
+      size: 8722
