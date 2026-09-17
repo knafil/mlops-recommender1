@@ -18,76 +18,18 @@ stages:
       - data/processed/validation_report.json:
           cache: false
 
-  build_features:
-    cmd: python src/features/build_features.py
+  pipeline_prefect:
+    cmd: python -m src.pipelines.recommender_pipeline
     deps:
-      - src/features/build_features.py
+      - src/pipelines/recommender_pipeline.py
+      - src/pipelines/tasks.py
       - data/processed/train.csv
     outs:
-      - data/features/user_features.parquet
-      - data/features/movie_features.parquet
-
-  build_advanced_features:
-    cmd: python src/features/build_advanced_features.py
-    deps:
-      - src/features/build_advanced_features.py
-      - data/processed/train.csv
-    outs:
-      - data/features/user_embeddings.parquet
-      - data/features/movie_embeddings.parquet
       - data/features/clean_features.parquet
-
-  check_leakage:
-    cmd: python src/features/check_leakage.py
-    deps:
-      - src/features/check_leakage.py
-      - data/features/clean_features.parquet
-    metrics:
-      - data/features/leakage_report.json:
-          cache: false
-
-  split:
-    cmd: python src/data/split.py
-    deps:
-      - src/data/split.py
-      - configs/config.yaml
-      - data/features/clean_features.parquet
-    outs:
-      - data/splits/train.parquet
-      - data/splits/val.parquet
-      - data/splits/test.parquet
-    metrics:
-      - data/splits/split_metrics.json:
-          cache: false
-
-  experiment:
-    cmd: python src/models/experiment.py
-    deps:
-      - src/models/experiment.py
-      - data/splits/train.parquet
-      - data/splits/val.parquet
-      - data/features/user_embeddings.parquet
-      - data/features/movie_embeddings.parquet
-    metrics:
-      - models/best_run.json:
-          cache: false
-
-  evaluate:
-    cmd: python -m src.models.evaluate
-    deps:
-      - src/models/evaluate.py
-      - src/models/metrics.py
       - data/splits/train.parquet
       - data/splits/test.parquet
-      - data/features/clean_features.parquet
-    outs:
-      - reports/backtest_results.json
     metrics:
+      - reports/backtest_results.json:
+          cache: false
       - models/evaluation_results.json:
           cache: false
-
-  promote_model:
-    cmd: python -m src.models.registry
-    deps:
-      - src/models/registry.py
-      - models/evaluation_results.json
